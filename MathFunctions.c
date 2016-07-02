@@ -1,5 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <errno.h>
+#include <limits.h>
 #include "MathFunctions.h"
 #include "PrimalityTest.h"
 
@@ -12,19 +14,20 @@ int main(int argc, char *argv[]) {
 	while (1) {
 		// Display the options at least once. Display again if needed
 		do {
-			printf("Select one of the following options to continue (1 - 5):\n"
+			printf("Select one of the following options to continue (1 - 6):\n"
 				"1.) Primality Test\n"
 				"2.) Prime Factorization\n"
 				"3.) Nth Number in Fibonacci Sequence\n"
 				"4.) Convert a Number from any Base to any Base\n"
-				"5.) Exit\n"
+				"5.) Greatest Common Divisor\n"
+				"6.) Exit\n"
 				"Your Selection: ");
 		
 			// Get the input and check if the value is within the range of options.
-			if ((input = retrieveInput()) == '\0' || input > 5 || input < 1) {
+			if ((input = retrieveInput()) == '\0' || input > 6 || input < 1) {
 				printf("\nError parsing response, please try again.\n");
 			}
-		} while (input == '\0' || input > 5 || input < 1);
+		} while (input == '\0' || input > 6 || input < 1);
 
 		// Primality Test
 		if (input == 1) {
@@ -38,10 +41,8 @@ int main(int argc, char *argv[]) {
 					printf("\nError parsing response, please try again.");
 				}
 			} while (input == '\0');
-			
-			result = isPrime(input);
 
-			if (result == 0) {
+			if ((result = isPrime(input)) == 0) {
 				printf("The Number IS NOT Prime.\n");
 			} else if (result == 1) {
 				printf("The Number IS Prime.\n");
@@ -59,6 +60,10 @@ int main(int argc, char *argv[]) {
 		} else if (input == 4) {
 			printf("4\n");
 			return 0;
+		// Greatest Common Divisor
+		} else if (input == 5) {
+			printf("5\n");
+			return 0;
 		// Exit
 		} else {
 			return 0;
@@ -74,7 +79,7 @@ int main(int argc, char *argv[]) {
 /* All input in the program will be with whole numbers, so we will
  * only return long ints from this function. */
 long int retrieveInput() {
-	const int MAX_LEN = 20;
+	const int MAX_LEN = 21;
 	char input[MAX_LEN];
 	char c = '\0';
 	int len = 0;
@@ -91,6 +96,10 @@ long int retrieveInput() {
 				input[len] = c;
 				len++;
 				continue;
+			} else if (len == 0 && c == '+') {
+				input[len] = c;
+				len++;
+				continue;
 			} else {
 				while ((c = getchar()) != '\n' && c != EOF);
 				return '\0';
@@ -98,6 +107,10 @@ long int retrieveInput() {
 		}
 		
 		if ((c >= '0' && c <= '9')) {
+			if (len == 0) {
+				input[len] = '+';
+				len++;
+			}
 			input[len] = c;
 			len++;
 		}
@@ -110,6 +123,13 @@ long int retrieveInput() {
 
 	// Convert the string of numbers to a long int
 	long int ret;
+	errno = 0;
 	ret = strtol(input, NULL, 10);
+
+	// If the input number was too large or too small for a long int, return a NULL character
+	if ((ret == LONG_MAX || ret == LONG_MIN) && errno == ERANGE) {
+		return '\0';
+	}
+
 	return ret;
 }
