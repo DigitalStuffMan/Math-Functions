@@ -1,7 +1,7 @@
-goal: math_functions
+goal: MathFunctions
 
-math_functions: math_functions.c
-	gcc -g -Wall -Werror -o math_functions math_functions.c
+MathFunctions: MathFunctions.c PrimalityTest.c
+	gcc -g -Wall -Werror -lm -o MathFunctions MathFunctions.c PrimalityTest.c
 
 clean:
-	rm -f math_functions *.out
+	rm -f MathFunctions *.out

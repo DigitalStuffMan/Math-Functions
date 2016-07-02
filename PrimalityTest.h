@@ -1,0 +1,6 @@
+#ifndef PRIMALITYTEST_H_INCLUDED
+#define MATHFUNCTIONS_H_INCLDUED
+
+int isPrime(long);
+
+#endif
