@@ -10,8 +10,14 @@ int isPrime(long num) {
 		return 1;
 	}
 
+	// Check if num is even. If so, return false.
+	if (num % 2 == 0) {
+		return 0;
+	}
+	
+	// If num is odd, we can start at 3 and skip all even numbers
 	int i;
-	for (i = 2; i < sqrt(num); i++) {
+	for (i = 3; i <= sqrt(num); i += 2) {
 		if (num % i == 0) {
 			return 0;
 		}
