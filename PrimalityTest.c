@@ -27,28 +27,27 @@ int isPrime(long int num) {
 	return 1;
 }
 
-// Get the next prime given a prime number
-long int getNextPrime(long int currentPrime) {
-	if (currentPrime < 2) {
+// Get the first prime after any given number
+long int getNextPrime(long int num) {
+	if (num < 2) {
 		return 2;
-	} else if (currentPrime == 2) {
-		return 3;
 	}
 
-	if (isPrime(currentPrime) == 0) {
-		return '\0';
+	// Check if num is even. If so, make it odd. If not, go to the next odd number.
+	if (num % 2 == 0) {
+		num += 1;
+	} else {
+		num += 2;
 	}
 
-	long int nextPrime = currentPrime + 2;
 	int prime = 0;
-
-	while (prime == 0) {
-		if (isPrime(nextPrime) == 0) {
-			nextPrime += 2;
-			continue;
+	do {
+		if (isPrime(num) == 0) {
+			num += 2;
 		} else {
 			prime = 1;
 		}
-	}
-	return nextPrime;
+	} while (prime == 0);
+
+	return num;
 }
