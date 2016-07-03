@@ -3,4 +3,6 @@
 
 int isPrime(long);
 
+long int getNextPrime(long int);
+
 #endif
