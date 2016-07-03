@@ -40,14 +40,10 @@ long int getNextPrime(long int num) {
 		num += 2;
 	}
 
-	int prime = 0;
-	do {
-		if (isPrime(num) == 0) {
-			num += 2;
-		} else {
-			prime = 1;
-		}
-	} while (prime == 0);
+	// Check the primality of every odd number after num
+	while (isPrime(num == 0)) {
+		num += 2;
+	}
 
 	return num;
 }
