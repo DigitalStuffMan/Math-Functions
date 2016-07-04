@@ -4,7 +4,7 @@
 
 // This is the simple trial division test
 int isPrime(long int num) {
-	if (num < 1) {
+	if (num <= 1) {
 		return 0;
 	} else if (num <= 3) {
 		return 1;

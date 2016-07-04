@@ -3,7 +3,20 @@
 #include "PrimeFactorization.h"
 #include "PrimalityTest.h"
 
-char* primeFactorization(long int num) {
+char* primeFactorization(long int num, int* success) {
+	// Make sure success poniter is valid
+	if (success == NULL) {
+		return NULL;
+	} else {
+		*success = '\0';
+	}
+	
+	// Make sure we have a number greater than 1
+	if (num <= 1) {
+		*success = -1;
+		return NULL;
+	}
+	
 	// Check if input is already prime.
 	// If so, return the input num.
 	if (isPrime(num) == 1) {

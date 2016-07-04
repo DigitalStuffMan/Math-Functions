@@ -5,13 +5,20 @@
 #include "MathFunctions.h"
 #include "PrimalityTest.h"
 #include "PrimeFactorization.h"
+#include "Fibonacci.h"
 
 int main(int argc, char *argv[]) {
 
-	// Create our variables, including a temp one for clearing the input buffer
+	// Create input variable
 	long int input = '\0';
-	int result = '\0';
+
+	// Create result variables
+	int boolResult = '\0';
+	unsigned long int unsignedLResult = '\0';
 	char* strResult = NULL;
+
+	// Create success pointer
+	// This is used to find out if errors occured
 	int *success = (int*)malloc(sizeof(int));
 	*success = '\0';
 
@@ -45,11 +52,11 @@ int main(int argc, char *argv[]) {
 					if ((input = retrieveInput(success)) == '\0' && *success == 0) {
 						printf("\nError parsing response, please try again.");
 					}
-				} while (input == '\0' && *success == 0);
+				} while ((input == '\0' && *success == 0));
 
-				if ((result = isPrime(input)) == 0) {
+				if ((boolResult = isPrime(input)) == 0) {
 					printf("The Number IS NOT Prime.\n");
-				} else if (result == 1) {
+				} else if (boolResult == 1) {
 					printf("The Number IS Prime.\n");
 				}
 				break;
@@ -62,10 +69,12 @@ int main(int argc, char *argv[]) {
 					// Get the input and loop if invalid
 					if ((input = retrieveInput(success)) == '\0' && *success == 0) {
 						printf("\nError parsing response, please try again.");
+					} else {
+						if ((strResult = primeFactorization(input, success)) == NULL && *success == -1) {
+							printf("\nError: Please Enter a Number Greater Than 1.\n");
+						}
 					}
-				} while (input == '\0' && *success == 0);
-
-				strResult = primeFactorization(input);
+				} while ((input == '\0' || strResult == NULL) && (*success == 0 || *success == -1));
 				printf("The Prime Factorization of %ld is:\n"
 						"%s\n", input, strResult);
 				free(strResult);
@@ -73,7 +82,24 @@ int main(int argc, char *argv[]) {
 				break;
 				// Nth Number in Fibonacci Sequence
 			case 3:
-				printf("3\n");
+				do {
+					printf("\n~~~~~~~~~~~~~~~~~~~~\n\n"
+							"Nth Number in Fibonacci Sequence:\n"
+							"Enter the Term of the Fibonacci Sequence You Want: ");
+					// Get the input and loop if invalid
+					if ((input = retrieveInput(success)) == '\0' && *success == 0) {
+						printf("\nError parsing response, please try again.");
+					} else {
+						if ((unsignedLResult = nthFibonacciTerm(input, success)) == '\0' && *success == -1) {
+							printf("\nError: Please Enter a Non-Negative Number.\n");
+						} else if (unsignedLResult == ULONG_MAX && *success == 0) {
+							printf("\nError: Number Too Big. Please Enter a Smaller Term.\n");
+						}
+					}
+				} while ((input == '\0' || unsignedLResult == '\0' || unsignedLResult == ULONG_MAX) && (*success == 0 || *success == -1));
+
+				printf("The %ld Term of the Fibonacci Sequence is:\n"
+						"%lu\n", input, unsignedLResult);
 				break;
 				// Convert from any Base to any Base
 			case 4:
@@ -97,7 +123,8 @@ int main(int argc, char *argv[]) {
 		}
 		// On loop, print a line and reset variables
 		input = '\0';
-		result = '\0';
+		boolResult = '\0';
+		unsignedLResult = '\0';
 		*success = '\0';
 		strResult = NULL;
 		printf("\n~~~~~~~~~~~~~~~~~~~~\n\n");
@@ -106,11 +133,18 @@ int main(int argc, char *argv[]) {
 
 /* All input in the program will be with whole numbers, so we will
  * only return long ints from this function. */
-long int retrieveInput(int* status) {
+long int retrieveInput(int* success) {
 	const int MAX_LEN = 21;
 	char input[MAX_LEN];
 	char c = '\0';
 	int len = 0;
+
+	// Make sure the success pointer is valid
+	if (success == NULL) {
+		return '\0';
+	} else {
+		*success = '\0';
+	}
 
 	// Make sure last spot has the terminating NULL
 	input[MAX_LEN - 1] = '\0';
@@ -133,7 +167,7 @@ long int retrieveInput(int* status) {
 				continue;
 			} else {
 				while ((c = getchar()) != '\n' && c != EOF);
-				*status = 0;
+				*success = 0;
 				return '\0';
 			}
 		}
@@ -150,7 +184,7 @@ long int retrieveInput(int* status) {
 
 	// If nothing was parsed, exit here with an error
 	if (len == 0) {
-		*status = 0;
+		*success = 0;
 		return '\0';
 	}
 
@@ -167,10 +201,10 @@ long int retrieveInput(int* status) {
 
 	// If the input number was too large or too small for a long int, return an error
 	if ((ret == LONG_MAX || ret == LONG_MIN) && errno == ERANGE) {
-		*status = 0;
+		*success = 0;
 		return '\0';
 	}
 
-	*status = 1;
+	*success = 1;
 	return ret;
 }
