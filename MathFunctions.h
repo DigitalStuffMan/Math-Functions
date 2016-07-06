@@ -1,6 +1,12 @@
 #ifndef MATHFUNCTIONS_H_INCLUDED
 #define MATHFUNCTIONS_H_INCLUDED
 
-long int retrieveInput();
+int main(int, char*[]);
+
+long int retrieveNumericInput(int*);
+
+char* retrieveAlphanumericInput(int*, int);
+
+void retrieveInput(char**, int*, int);
 
 #endif
