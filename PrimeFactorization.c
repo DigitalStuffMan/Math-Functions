@@ -20,6 +20,7 @@ char* primeFactorization(long int num, int* success) {
 	// Check if input is already prime.
 	// If so, return the input num.
 	if (isPrime(num) == 1) {
+		*success = 1;
 		return toString(num);
 	}
 
