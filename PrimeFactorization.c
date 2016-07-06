@@ -50,6 +50,7 @@ char* primeFactorization(long int num, int* success) {
 		}
 		base = getNextPrime(base);
 	}
+	*success = 1;
 	return list;
 }
 
