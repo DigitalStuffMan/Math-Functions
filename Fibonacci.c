@@ -18,6 +18,7 @@ unsigned long int nthFibonacciTerm(long int term, int* success) {
 
 	// Check if the input is zero
 	if (term == 0) {
+		*success = 1;
 		return 0;
 	}
 
@@ -48,8 +49,10 @@ unsigned long int nthFibonacciTerm(long int term, int* success) {
 
 	// Return the last number we added to
 	if (next == 0) {
+		*success = 1;
 		return num2;
 	} else {
+		*success = 1;
 		return num1;
 	}
 }
