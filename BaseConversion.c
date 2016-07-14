@@ -43,20 +43,29 @@ char* baseConversion(int baseFrom, int baseTo, char* num, int* success) {
 
 	}
 
+	// Get the max char the input text can be
+	char maxChar = '\0';
+	if (baseFrom <= 10) {
+		maxChar = baseFrom + '0' - 1;
+	} else {
+		maxChar = 'A' + (baseFrom - 11);
+	}
+
 	// Convert the number to base 10
 	int power = 0;
 	unsigned long int numBase10 = 0;
-	int nextNum = '\0';
+	unsigned long int nextNum = '\0';
 	int i;
 	for (i = (len - 1); i >= 0; i--) {
 		if (num[i] == '+' || num[i] == '-') {
 			continue;
 		}
 
+		// Make sure the letters are in uppercase
+		num[i] = toupper(num[i]);
 		if (num[i] >= '0' && num[i] <= '9') {
 			nextNum = num[i] - '0';
-		} else if (num[i] >= 'A' && num[i] <= 'Z') {
-			num[i] = toupper(num[i]);
+		} else if (num[i] >= 'A' && num[i] <= maxChar) {
 			nextNum = (num[i] + 10) - 'A';
 		} else {
 			*success = 0;
@@ -110,7 +119,7 @@ char* baseConversion(int baseFrom, int baseTo, char* num, int* success) {
 	return ret;
 }
 
-int willNextOverflow(unsigned long int num1, int num2) {
+int willNextOverflow(unsigned long int num1, unsigned long int num2) {
 	if (num1 > ULONG_MAX - num2) {
 		return 1;
 	} else {

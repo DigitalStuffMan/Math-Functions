@@ -3,6 +3,6 @@
 
 char* baseConversion(int, int, char*, int*);
 
-int willNextOverflow(unsigned long int num1, int num2);
+int willNextOverflow(unsigned long int, unsigned long int);
 
 #endif
