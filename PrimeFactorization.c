@@ -10,27 +10,28 @@ char* primeFactorization(long int num, int* success) {
 	} else {
 		*success = '\0';
 	}
-	
+
 	// Make sure we have a number greater than 1
 	if (num <= 1) {
 		*success = -1;
 		return NULL;
 	}
-	
+
+	// Allocate space for the list and initialize it
+	char* list = (char*)malloc(sizeof(char));
+	list[0] = '\0';
+
 	// Check if input is already prime.
 	// If so, return the input num.
 	if (isPrime(num) == 1) {
 		*success = 1;
-		return toString(num);
+		list = addToList(list, num, 1);
+		return list;
 	}
 
-	// Allocate spcae for the list
-	char* list = (char*)malloc(sizeof(char));
+	// Set starting base and power variables
 	long int base = 2;
 	long int power = 0;
-
-	// Set final spot to NULL
-	list[0] = '\0';
 
 	while (num != 1) {
 		while (num % base == 0) {
