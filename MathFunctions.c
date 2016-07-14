@@ -7,6 +7,7 @@
 #include "PrimalityTest.h"
 #include "PrimeFactorization.h"
 #include "Fibonacci.h"
+#include "BaseConversion.h"
 
 int main(int argc, char *argv[]) {
 
@@ -196,9 +197,15 @@ int main(int argc, char *argv[]) {
 						continue;
 					}
 
-					printf("\n%d\n%s\n%d\n", baseFrom, alphanumericInput, baseTo);
-
+					strResult = baseConversion(baseFrom, baseTo, alphanumericInput, success);
+					if (*success != 1) {
+						printf("\nError Converting Number. Please try again.\n");
+						continue;
+					}
 				} while (*success != 1);
+
+				printf("\nThe Base %d Number %s in Base %d is:\n"
+						"%s", baseFrom, alphanumericInput, baseTo, strResult);
 
 				// Reset used variables
 				*success = '\0';
@@ -206,6 +213,8 @@ int main(int argc, char *argv[]) {
 				free(alphanumericInput);
 				alphanumericInput = NULL;
 				baseTo = '\0';
+				free(strResult);
+				strResult = NULL;
 				break;
 
 				// Greatest Common Divisor
