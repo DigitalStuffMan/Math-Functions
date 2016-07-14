@@ -8,17 +8,20 @@
 #include "PrimeFactorization.h"
 #include "Fibonacci.h"
 #include "BaseConversion.h"
+#include "GreatestCommonDivisor.h"
 
 int main(int argc, char *argv[]) {
 
 	// Create input variables
 	long int numericInput = '\0';
+	long int numericInput2 = '\0';
 	int baseFrom = '\0';
 	int baseTo = '\0';
 	char *alphanumericInput = NULL;
 
 	// Create result variables
 	int boolResult = '\0';
+	long int longResult = '\0';
 	unsigned long int unsignedLResult = '\0';
 	char *strResult = NULL;
 
@@ -204,8 +207,8 @@ int main(int argc, char *argv[]) {
 					}
 				} while (*success != 1);
 
-				printf("\nThe Base %d Number %s in Base %d is:\n"
-						"%s", baseFrom, alphanumericInput, baseTo, strResult);
+				printf("The Base %d Number %s in Base %d is:\n"
+						"%s\n", baseFrom, alphanumericInput, baseTo, strResult);
 
 				// Reset used variables
 				*success = '\0';
@@ -219,7 +222,55 @@ int main(int argc, char *argv[]) {
 
 				// Greatest Common Divisor
 			case 5:
-				printf("5\n");
+				do {
+					printf("\n~~~~~~~~~~~~~~~~~~~~\n\n"
+							"Greatest Common Divisor:\n"
+							"Enter Number 1: ");
+
+					// Get the first number
+					numericInput = retrieveNumericInput(success);
+
+					if (*success != 1) {
+						printf("\nError parsing input. Please try again.\n");
+						continue;
+					}
+
+					if (numericInput == 0) {
+						printf("\nError: Please Enter a Non-Zero Number.\n");
+						continue;
+					}
+
+					// Get the second number
+					printf("Now Enter Number 2: ");
+					numericInput2 = retrieveNumericInput(success);
+
+					if (*success != 1) {
+						printf("\nError parsing input. Please try again.\n");
+						continue;
+					}
+
+					if (numericInput == 0) {
+						printf("\nError: Please Enter a Non-Zero Number.\n");
+						continue;
+					}
+
+					// Get the result
+					longResult = gcd(numericInput, numericInput2, success);
+
+					if (*success != 1) {
+						printf("\nError getting result. Please try again.\n");
+						continue;
+					}
+
+				} while (*success != 1);
+
+				printf("The Greatest Common Divisor of %ld and %ld is\n"
+						"%ld\n", numericInput, numericInput2, longResult);
+
+				// Reset used variables
+				*success = '\0';
+				numericInput = '\0';
+				numericInput2 = '\0';
 				break;
 
 				// Exit
