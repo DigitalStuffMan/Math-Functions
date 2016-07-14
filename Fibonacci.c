@@ -9,7 +9,7 @@ unsigned long int nthFibonacciTerm(long int term, int* success) {
 	} else {
 		*success = '\0';
 	}
-	
+
 	// Check if the input is negative
 	if (term < 0) {
 		*success = -1;
